@@ -6,3 +6,8 @@ To get started with TDD, see the `README.md` file in your
 `ruby/gigasecond` directory.
 =end
 
+class Gigasecond
+  def self.from(time)
+    time + 10**9
+  end
+end
