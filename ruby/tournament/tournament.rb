@@ -38,6 +38,7 @@ class Tournament
       end
       teams << team1
       teams << team2
+      teams.sort_by! { |team| team[:P] }.reverse!
       return display_table_results(teams)
     end
   end
