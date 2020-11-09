@@ -128,7 +128,7 @@ class TournamentTest < Minitest::Test
   end
 
   def test_typical_input
-    skip
+    # skip
     input = <<~INPUT
     Allegoric Alaskans;Blithering Badgers;win
     Devastating Donkeys;Courageous Californians;draw

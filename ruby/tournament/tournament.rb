@@ -16,14 +16,14 @@ class Tournament
     @teams = []
   end
 
-  def tally
+  def process_results
     @results.each { |result| add_result_to_teams(result) }
     rank_teams(@teams)
     ScoreBoard.display_board(@teams)
   end
 
   def self.tally(results)
-    Tournament.new(results).tally
+    Tournament.new(results).process_results
   end
 
   private
