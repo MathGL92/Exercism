@@ -48,7 +48,7 @@ class TournamentTest < Minitest::Test
   end
 
   def test_a_different_team_can_win
-    skip
+    # skip
     input = <<~INPUT
     Blithering Badgers;Allegoric Alaskans;win
     INPUT
