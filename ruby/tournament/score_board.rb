@@ -1,5 +1,5 @@
 class ScoreBoard
-  def self.display_board(teams)
+  def self.display_final_board(teams)
     "#{self.display_headers}#{self.display_teams_result(teams)}"
   end
 

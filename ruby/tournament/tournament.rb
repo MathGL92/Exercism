@@ -19,7 +19,7 @@ class Tournament
   def process_results
     @results.each { |result| add_result_to_teams(result) }
     rank_teams(@teams)
-    ScoreBoard.display_board(@teams)
+    ScoreBoard.display_final_board(@teams)
   end
 
   def self.tally(results)
@@ -29,8 +29,8 @@ class Tournament
   private
 
   def add_result_to_teams(result)
-    team1 = get_team(result[0])
-    team2 = get_team(result[1])
+    team1 = get_or_create_team(result[0])
+    team2 = get_or_create_team(result[1])
     if result[2] == "win"
       team1.wins_game
       team2.looses_game
@@ -43,7 +43,7 @@ class Tournament
     end
   end
 
-  def get_team(name)
+  def get_or_create_team(name)
     team = @teams.find { |team| team.name == name }
 
     team.nil? ? create_team(name) : team
