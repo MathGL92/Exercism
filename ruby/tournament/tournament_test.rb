@@ -150,7 +150,7 @@ class TournamentTest < Minitest::Test
   end
 
   def test_incomplete_competition_not_all_pairs_have_played
-    skip
+    # skip
     input = <<~INPUT
     Allegoric Alaskans;Blithering Badgers;loss
     Devastating Donkeys;Allegoric Alaskans;loss
