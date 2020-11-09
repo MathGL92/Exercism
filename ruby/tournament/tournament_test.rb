@@ -170,7 +170,7 @@ class TournamentTest < Minitest::Test
   end
 
   def test_ties_broken_alphabetically
-    skip
+    # skip
     input = <<~INPUT
     Courageous Californians;Devastating Donkeys;win
     Allegoric Alaskans;Blithering Badgers;win
