@@ -10,7 +10,7 @@ class ScoreBoard
   def self.display_teams_result(teams)
     result = ""
     teams.each do |team|
-    result += "#{team.name}             |  #{team.match_played} |  #{team.won} |  #{team.drawn} |  #{team.lost} |  #{team.points}\n"
+    result += "#{team.name.ljust(31, " ")}|  #{team.match_played} |  #{team.won} |  #{team.drawn} |  #{team.lost} |  #{team.points}\n"
     end
     result
   end
