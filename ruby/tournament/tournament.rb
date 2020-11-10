@@ -1,25 +1,21 @@
-=begin
-Write your code for the 'Tournament' exercise in this file. Make the tests in
-`tournament_test.rb` pass.
-
-To get started with TDD, see the `README.md` file in your
-`ruby/tournament` directory.
-=end
-require_relative "team"
-require_relative "score_board"
-require "pry"
+require_relative 'team'
+require_relative 'score_board'
+require 'pry'
 
 class Tournament
-
   def initialize(results)
-    @results = results.split("\n").map { |game| game.split(';') }
+    @results = results.split("\n").map { |result| result.split(';') }
     @teams = []
+    @score_board = ScoreBoard.new(@teams)
   end
 
   def process_results
+    # add results to to teams
     @results.each { |result| add_result_to_teams(result) }
+    # rank teams
     rank_teams(@teams)
-    ScoreBoard.display_final_board(@teams)
+    # display results in the ScoreBoard
+    @score_board.display_final_board
   end
 
   def self.tally(results)
@@ -31,12 +27,9 @@ class Tournament
   def add_result_to_teams(result)
     team1 = get_or_create_team(result[0])
     team2 = get_or_create_team(result[1])
-    if result[2] == "win"
-      team1.wins_game
-      team2.looses_game
-    elsif result[2] == "loss"
-      team1.looses_game
-      team2.wins_game
+    case result[2]
+    when 'win' then team1.wins_game && team2.looses_game
+    when 'loss' then team1.looses_game && team2.wins_game
     else
       team1.ties_game
       team2.ties_game
@@ -44,18 +37,18 @@ class Tournament
   end
 
   def get_or_create_team(name)
-    team = @teams.find { |team| team.name == name }
+    team_found = @teams.find { |team| team.name == name }
 
-    team.nil? ? create_team(name) : team
+    team_found.nil? ? create_team(name) : team_found
   end
 
   def create_team(name)
-    team = Team.new(name)
-    @teams << team
-    team
+    new_team = Team.new(name)
+    @teams << new_team
+    new_team
   end
 
   def rank_teams(teams)
-    teams.sort_by! {|team| [-team.points, team.name] }
+    teams.sort_by! { |team| [-team.points, team.name] }
   end
 end
