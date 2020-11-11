@@ -1,6 +1,4 @@
 class ScoreBoard
-  attr_accessor :teams
-
   def initialize(teams)
     @teams = teams
   end

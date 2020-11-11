@@ -5,14 +5,14 @@ require 'pry'
 
 class Tournament
   def initialize(input)
-    @games = parse_games(input)
     @teams = []
+    @games = parse_games(input)
     @score_board = ScoreBoard.new(@teams)
   end
 
   def process_games
     # add games to to teams
-    @games.each { |game| parse_teams_from_game(game) }
+    @games.each { |game| add_result_to_teams_stats(game) }
     # rank teams
     rank_teams(@teams)
     # display games in the ScoreBoard
@@ -26,25 +26,22 @@ class Tournament
   private
 
   def parse_games(input)
-    games = input.split("\n").map do |game|
+    input.split("\n").map do |game|
       (*team_names, result) = game.split(';')
-      Game.new(*team_names, result)
+      game_teams = team_names.map { |name| parse_team(name) }
+      Game.new(*game_teams, result)
     end
   end
 
-  def parse_teams_from_game(game)
-    team1 = get_or_create_team(game.team_one)
-    team2 = get_or_create_team(game.team_two)
+  def add_result_to_teams_stats(game)
     case game.result
-    when 'win' then team1.wins_game && team2.looses_game
-    when 'loss' then team1.looses_game && team2.wins_game
-    else
-      team1.ties_game
-      team2.ties_game
+    when 'win' then game.team_one.wins_game && game.team_two.looses_game
+    when 'loss' then game.team_one.looses_game && game.team_two.wins_game
+    else game.team_one.ties_game && game.team_two.ties_game
     end
   end
 
-  def get_or_create_team(name)
+  def parse_team(name)
     team_found = @teams.find { |team| team.name == name }
 
     team_found.nil? ? create_team(name) : team_found
