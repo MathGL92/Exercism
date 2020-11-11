@@ -1,33 +1,41 @@
 require_relative 'team'
 require_relative 'score_board'
+require_relative 'game'
 require 'pry'
 
 class Tournament
-  def initialize(results)
-    @results = results.split("\n").map { |result| result.split(';') }
+  def initialize(input)
+    @games = parse_games(input)
     @teams = []
     @score_board = ScoreBoard.new(@teams)
   end
 
-  def process_results
-    # add results to to teams
-    @results.each { |result| add_result_to_teams(result) }
+  def process_games
+    # add games to to teams
+    @games.each { |game| parse_teams_from_game(game) }
     # rank teams
     rank_teams(@teams)
-    # display results in the ScoreBoard
+    # display games in the ScoreBoard
     @score_board.display_final_board
   end
 
-  def self.tally(results)
-    Tournament.new(results).process_results
+  def self.tally(input)
+    Tournament.new(input).process_games
   end
 
   private
 
-  def add_result_to_teams(result)
-    team1 = get_or_create_team(result[0])
-    team2 = get_or_create_team(result[1])
-    case result[2]
+  def parse_games(input)
+    games = input.split("\n").map do |game|
+      (*team_names, result) = game.split(';')
+      Game.new(*team_names, result)
+    end
+  end
+
+  def parse_teams_from_game(game)
+    team1 = get_or_create_team(game.team_one)
+    team2 = get_or_create_team(game.team_two)
+    case game.result
     when 'win' then team1.wins_game && team2.looses_game
     when 'loss' then team1.looses_game && team2.wins_game
     else
