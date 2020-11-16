@@ -28,6 +28,6 @@ class HighScores
   end
 
   def latest_is_personal_best?
-    @scores.last == @scores.max
+    latest == personal_best
   end
 end
