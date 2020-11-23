@@ -1,17 +1,25 @@
 class ScoreBoard
-  def self.display_final_board(teams)
-    "#{self.display_headers}#{self.display_teams_result(teams)}"
+  def initialize(teams)
+    @teams = teams
   end
 
-  def self.display_headers
-    "Team                           | MP |  W |  D |  L |  P\n"
+  def display_final_board
+    display_headers + display_teams_result
   end
 
-  def self.display_teams_result(teams)
-    result = ""
-    teams.each do |team|
-    result += "#{team.name.ljust(31, " ")}|  #{team.match_played} |  #{team.won} |  #{team.drawn} |  #{team.lost} |  #{team.points}\n"
-    end
-    result
+  private
+
+  def display_headers
+    display_line('Team', 'MP', 'W', 'D', 'L', 'P')
+  end
+
+  def display_teams_result
+    @teams
+      .map { |team| display_line(team.name, team.match_played, team.won, team.drawn, team.lost, team.points) }
+      .join
+  end
+
+  def display_line(*args)
+    format("%-31s| %2s | %2s | %2s | %2s | %2s\n", *args)
   end
 end
