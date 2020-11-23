@@ -1,26 +1,21 @@
-require_relative 'team'
-require_relative 'score_board'
-require_relative 'game'
-require 'pry'
-
 class Tournament
-  def initialize(input)
+  def initialize(games)
     @teams = []
-    @games = parse_games(input)
+    @games = parse_games(games)
     @score_board = ScoreBoard.new(@teams)
   end
 
+  def self.tally(game)
+    Tournament.new(game).process_games
+  end
+
   def process_games
-    # add games to to teams
+    # add games to teams stats
     @games.each { |game| add_result_to_teams_stats(game) }
     # rank teams
     rank_teams(@teams)
     # display games in the ScoreBoard
     @score_board.display_final_board
-  end
-
-  def self.tally(input)
-    Tournament.new(input).process_games
   end
 
   private
@@ -41,6 +36,10 @@ class Tournament
     end
   end
 
+  def rank_teams(teams)
+    teams.sort_by! { |team| [-team.points, team.name] }
+  end
+
   def parse_team(name)
     team_found = @teams.find { |team| team.name == name }
 
@@ -52,8 +51,72 @@ class Tournament
     @teams << new_team
     new_team
   end
+end
 
-  def rank_teams(teams)
-    teams.sort_by! { |team| [-team.points, team.name] }
+class ScoreBoard
+  def initialize(teams)
+    @teams = teams
+  end
+
+  def display_final_board
+    display_headers + display_teams_result
+  end
+
+  private
+
+  def display_headers
+    display_line('Team', 'MP', 'W', 'D', 'L', 'P')
+  end
+
+  def display_teams_result
+    @teams
+      .map { |team| display_line(team.name, team.match_played, team.won, team.drawn, team.lost, team.points) }
+      .join
+  end
+
+  def display_line(*args)
+    format("%-31s| %2s | %2s | %2s | %2s | %2s\n", *args)
+  end
+end
+
+class Team
+  attr_reader :name
+  attr_accessor :match_played, :won, :drawn, :lost, :points
+
+  def initialize(name)
+    @name = name
+    @match_played = 0
+    @won = 0
+    @drawn = 0
+    @lost = 0
+    @points = 0
+  end
+
+  def wins_game
+    @match_played += 1
+    @won += 1
+    @points += 3
+  end
+
+  def looses_game
+    @match_played += 1
+    @lost += 1
+    @points += 0
+  end
+
+  def ties_game
+    @match_played += 1
+    @drawn += 1
+    @points += 1
+  end
+end
+
+class Game
+  attr_reader :team_one, :team_two, :result
+
+  def initialize(team_one, team_two, result)
+    @team_one = team_one
+    @team_two = team_two
+    @result = result
   end
 end
