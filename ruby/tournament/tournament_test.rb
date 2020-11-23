@@ -1,3 +1,4 @@
+# rubocop:disable all
 require 'minitest/autorun'
 require_relative 'tournament'
 require 'minitest/pride'
