@@ -11,7 +11,7 @@ class WordCountTest < Minitest::Test
   end
 
   def test_count_one_of_each_word
-    skip
+    # skip
     phrase = Phrase.new("one of each")
     counts = {"one"=>1, "of"=>1, "each"=>1}
     assert_equal counts, phrase.word_count
