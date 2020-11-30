@@ -8,6 +8,6 @@ To get started with TDD, see the `README.md` file in your
 
 class FlattenArray
   def self.flatten(array)
-    array.flatten.filter_map { |i| i if !i.nil? }
+    array.flatten.reject(&:nil?)
   end
 end
