@@ -7,10 +7,12 @@ To get started with TDD, see the `README.md` file in your
 =end
 class Hamming
   def self.compute(dna1, dna2)
-    raise ArgumentError if dna1.size != dna2.size
+    raise ArgumentError if different_size?(dna1, dna2)
 
-    dna1.chars.map.with_index do |dna, index|
-      dna != dna2[index] ? 1 : 0
-    end.sum
+    0.upto(dna1.size).count { |i| dna1[i] != dna2[i] }
+  end
+
+  def self.different_size?(dna1, dna2)
+    dna1.size != dna2.size
   end
 end
