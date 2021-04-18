@@ -24,7 +24,7 @@ end
 
 class Phrase
   def initialize(message)
-    @message = message
+    @message = message.strip
   end
 
   def yelling?
@@ -32,11 +32,11 @@ class Phrase
   end
 
   def question?
-    @message.strip[-1] == '?'
+    @message.end_with?('?')
   end
 
   def silence?
-    @message !~ /\S/
+    @message.empty?
   end
 
   def yelling_question?
