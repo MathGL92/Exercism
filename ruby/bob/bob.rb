@@ -8,32 +8,48 @@ To get started with TDD, see the `README.md` file in your
 
 class Bob
   class << self
-    def hey(sentence)
-      if yelling_question?(sentence) then "Calm down, I know what I'm doing!"
-      elsif yelling?(sentence) then 'Whoa, chill out!'
-      elsif question?(sentence) then 'Sure.'
-      elsif not_saying_anything?(sentence) then 'Fine. Be that way!'
+    def hey(message)
+      phrase = Phrase.new(message)
+
+      if phrase.yelling_question? then "Calm down, I know what I'm doing!"
+      elsif phrase.yelling? then 'Whoa, chill out!'
+      elsif phrase.question? then 'Sure.'
+      elsif phrase.silence? then 'Fine. Be that way!'
       else
         'Whatever.'
       end
     end
+  end
+end
 
-    private
+class Phrase
+  def initialize(message)
+    @message = message
+  end
 
-    def yelling?(string)
-      string == string.upcase && string.count('a-zA-Z').positive?
-    end
+  def yelling?
+    all_uppercase? && letters?
+  end
 
-    def question?(string)
-      string.strip[-1] == '?'
-    end
+  def question?
+    @message.strip[-1] == '?'
+  end
 
-    def not_saying_anything?(string)
-      string !~ /\S/
-    end
+  def silence?
+    @message !~ /\S/
+  end
 
-    def yelling_question?(string)
-      yelling?(string) && question?(string)
-    end
+  def yelling_question?
+    yelling? && question?
+  end
+
+  private
+
+  def letters?
+    @message.count('a-zA-Z').positive?
+  end
+
+  def all_uppercase?
+    @message == @message.upcase
   end
 end
