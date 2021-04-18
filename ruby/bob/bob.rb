@@ -9,18 +9,16 @@ To get started with TDD, see the `README.md` file in your
 class Bob
   class << self
     def hey(sentence)
-      if yelling?(sentence) && question?(sentence)
-        "Calm down, I know what I'm doing!"
-      elsif yelling?(sentence)
-        'Whoa, chill out!'
-      elsif question?(sentence)
-        'Sure.'
-      elsif not_saying_anything(sentence)
-        'Fine. Be that way!'
+      if yelling_question?(sentence) then "Calm down, I know what I'm doing!"
+      elsif yelling?(sentence) then 'Whoa, chill out!'
+      elsif question?(sentence) then 'Sure.'
+      elsif not_saying_anything?(sentence) then 'Fine. Be that way!'
       else
         'Whatever.'
       end
     end
+
+    private
 
     def yelling?(string)
       string == string.upcase && string.count('a-zA-Z').positive?
@@ -30,8 +28,12 @@ class Bob
       string.strip[-1] == '?'
     end
 
-    def not_saying_anything(string)
+    def not_saying_anything?(string)
       string !~ /\S/
+    end
+
+    def yelling_question?(string)
+      yelling?(string) && question?(string)
     end
   end
 end
