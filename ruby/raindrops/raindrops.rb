@@ -16,7 +16,7 @@ class Raindrops
   def self.convert(num)
     output = ''
 
-    [3, 5, 7].each { |factor| output += SOUNDS[factor] if divisible_by?(num, factor) }
+    SOUNDS.each { |prime, sound| output += sound if divisible_by?(num, prime) }
 
     output.empty? ? num.to_s : output
   end
