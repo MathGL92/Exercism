@@ -7,17 +7,18 @@ To get started with TDD, see the `README.md` file in your
 =end
 
 class Raindrops
+  SOUNDS = {
+    3 => 'Pling',
+    5 => 'Plang',
+    7 => 'Plong'
+  }.freeze
+
   def self.convert(num)
     output = ''
-    output += 'Pling' if divisible_by?(num, 3)
 
-    output += 'Plang' if divisible_by?(num, 5)
+    [3, 5, 7].each { |factor| output += SOUNDS[factor] if divisible_by?(num, factor) }
 
-    output += 'Plong' if divisible_by?(num, 7)
-
-    output += num.to_s if output == ''
-
-    output
+    output.empty? ? num.to_s : output
   end
 
   def self.divisible_by?(num, divider)
