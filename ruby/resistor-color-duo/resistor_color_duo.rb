@@ -7,13 +7,9 @@ To get started with TDD, see the `README.md` file in your
 =end
 
 class ResistorColorDuo
-  COLORS = %w(black brown red orange yellow green blue violet grey white)
+  COLORS = %w[black brown red orange yellow green blue violet grey white].freeze
 
-  def self.value(array)
-    # input array of color names
-    # only keep 2 first elements of array
-    # iterate through array and replace each element by the index of this element in COLORS, join them , transform to integer
-    array.first(2).map.with_index { |color, index| COLORS.index(color) }.join('').to_i
-    # output 2 digit integer (even if more than 2 colors)
+  def self.value(colors)
+    colors.first(2).map { |color| COLORS.index(color) }.join.to_i
   end
 end
