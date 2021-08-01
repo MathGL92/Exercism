@@ -7,8 +7,8 @@ To get started with TDD, see the `README.md` file in your
 =end
 
 class Matrix
-  def initialize(string)
-    @matrix = create_matrix(string)
+  def initialize(matrix_string)
+    @matrix = create_matrix(matrix_string)
   end
 
   def rows
@@ -21,8 +21,8 @@ class Matrix
 
   private
 
-  def create_matrix(string)
-    string.each_line.map { |row| format_row(row) }
+  def create_matrix(matrix_string)
+    matrix_string.each_line.map { |row| format_row(row) }
   end
 
   def format_row(row)
